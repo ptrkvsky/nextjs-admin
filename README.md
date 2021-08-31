@@ -27,6 +27,7 @@ A TypeScript starter for Next.js that includes all you need to build amazing pro
 - 🗂 **Absolute import** - Import folders and files using the `@` prefix
 - 🗂 **Dotenv safe** - ENforce environment variable
 - 🗂 **Prisma** - Lovely ORM
+- 🗂 **Chakra-ui** - Compoenent style libray
 
 ## 🚀 Getting started
 
