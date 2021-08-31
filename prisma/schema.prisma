@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+  Post Post[]
+}
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  published   Boolean  @default(false)
+  authorId    Int
+  categoryId  Int
+  createdAt   DateTime @default(now())
+  description String
+  updatedAt   DateTime
+  User        User     @relation(fields: [authorId], references: [id])
+  Category    Category @relation(fields: [categoryId], references: [id])
+  Post_B      Post[]   @relation("relatedPosts")
+  Post_A      Post[]   @relation("relatedPosts")
+}
+
+model Token {
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime
+  type       TokenType
+  emailToken String?   @unique
+  valid      Boolean   @default(true)
+  expiration DateTime
+  userId     Int
+  User       User      @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  name     String?
+  password String
+  role     Role    @default(USER)
+  Post     Post[]
+  Token    Token[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum TokenType {
+  EMAIL
+  API
+}

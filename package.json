@@ -27,6 +27,8 @@
     ]
   },
   "dependencies": {
+    "@prisma/client": "2.30.2",
+    "dotenv-safe": "8.2.0",
     "next": "11.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
@@ -54,6 +56,7 @@
     "husky": "7.0.2",
     "lint-staged": "11.1.2",
     "prettier": "2.3.2",
+    "prisma": "2.30.2",
     "typescript": "4.3.5"
   },
   "config": {
