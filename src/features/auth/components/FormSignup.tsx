@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
+  background,
   Button,
   chakra,
   FormControl,
   FormErrorMessage,
   FormHelperText,
+  Icon,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
   Link,
   Stack,
-  IconButton,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { FaUserAlt, FaLock, FaSearch } from 'react-icons/fa';
+import { IoMdMail as IoMail } from 'react-icons/io';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 
-const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 const CFaSearch = chakra(FaSearch);
 
@@ -26,6 +29,7 @@ interface IFormInputs {
   name: string;
   email: string;
   password: string;
+  passwordConfirm: string;
 }
 
 const schema = yup.object().shape({
@@ -40,9 +44,18 @@ const schema = yup.object().shape({
     .min(4, `La longueur min est 4`)
     .max(20, `La longueur maximale est 20`)
     .required(`Ce champ est obligatoire`),
+  passwordConfirm: yup
+    .string()
+    .min(4, `La longueur min est 4`)
+    .max(20, `La longueur maximale est 20`)
+    .oneOf(
+      [yup.ref(`password`), null],
+      `Les mots de passe doivent être identique`,
+    )
+    .required(`Ce champ est obligatoire`),
 });
 
-export const LoginForm = () => {
+export const FormSignup = () => {
   const {
     register,
     handleSubmit,
@@ -53,6 +66,11 @@ export const LoginForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const handleShowClick = () => setShowPassword(!showPassword);
+
+  const bgFormColor = useColorModeValue(`gray.100`, `gray.700`);
+  const iconColor = useColorModeValue(`gray.400`, `gray.300`);
+
+  console.log(errors);
 
   const formSubmitHandler: SubmitHandler<IFormInputs> = async (
     data: IFormInputs,
@@ -74,19 +92,19 @@ export const LoginForm = () => {
       <Stack
         spacing={4}
         p="2rem"
-        backgroundColor="gray.800"
+        backgroundColor={bgFormColor}
         boxShadow="md"
         borderRadius="base"
       >
-        {/* Email */}
+        {/* 
+        Name 
+        */}
         <FormControl isRequired isInvalid={!!errors?.name}>
           <InputGroup>
             <InputLeftElement pointerEvents="none">
-              <CFaUserAlt color="whiteAlpha.900" />
+              <Icon as={FaUserAlt} w={4} h={4} color={iconColor} />
             </InputLeftElement>
             <Input
-              backgroundColor="gray.700"
-              color="whiteAlpha.900"
               type="text"
               placeholder="Nom"
               variant="flushed"
@@ -98,17 +116,17 @@ export const LoginForm = () => {
             </FormErrorMessage>
           </InputGroup>
         </FormControl>
-        {/* Email */}
+        {/* 
+        Email 
+        */}
         <FormControl isRequired isInvalid={!!errors?.email}>
           <InputGroup>
             <InputLeftElement pointerEvents="none">
-              <CFaUserAlt color="whiteAlpha.900" />
+              <Icon as={IoMail} w={5} h={5} color={iconColor} />
             </InputLeftElement>
             <Input
-              backgroundColor="gray.700"
-              color="whiteAlpha.900"
               type="email"
-              placeholder="Email adresse"
+              placeholder="E-mail"
               variant="flushed"
               focusBorderColor="pink.400"
               {...register(`email`)}
@@ -118,15 +136,15 @@ export const LoginForm = () => {
             </FormErrorMessage>
           </InputGroup>
         </FormControl>
-        {/* Password */}
+        {/* 
+        Password 
+        */}
         <FormControl isRequired isInvalid={!!errors?.password}>
           <InputGroup>
             <InputLeftElement pointerEvents="none" color="gray.300">
               <CFaLock color="whiteAlpha.900" />
             </InputLeftElement>
             <Input
-              backgroundColor="gray.700"
-              color="whiteAlpha.900"
               type={showPassword ? `text` : `password`}
               placeholder="Mot de passe"
               variant="flushed"
@@ -136,34 +154,71 @@ export const LoginForm = () => {
             <InputRightElement width="4.5rem">
               <IconButton
                 colorScheme="pink"
-                aria-label="Search database"
-                icon={<CFaSearch />}
+                aria-label="Afficher le mot de passe"
+                icon={<CFaSearch color="pink.400" />}
                 onClick={handleShowClick}
-                size="sm"
+                size="md"
                 background="transparent"
+                _hover={{ background: `transparent`, transform: `scale(1.3)` }}
               />
             </InputRightElement>
           </InputGroup>
-          {/* Forgot Password */}
           <FormErrorMessage color="red.500">
             {errors.password && errors.password.message}
           </FormErrorMessage>
-          {/* Forgot Password */}
+          {/* 
+        Password Confirm
+        */}
+          <FormControl isRequired isInvalid={!!errors?.passwordConfirm}>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none" color="gray.300">
+                <CFaLock color="whiteAlpha.900" />
+              </InputLeftElement>
+              <Input
+                type={showPassword ? `text` : `password`}
+                placeholder="Confirmation"
+                variant="flushed"
+                focusBorderColor="pink.400"
+                {...register(`passwordConfirm`)}
+              />
+              <InputRightElement width="4.5rem">
+                <IconButton
+                  colorScheme="pink"
+                  aria-label="Afficher le mot de passe"
+                  icon={<CFaSearch color="pink.400" />}
+                  onClick={handleShowClick}
+                  size="md"
+                  background="transparent"
+                  _hover={{
+                    background: `transparent`,
+                    transform: `scale(1.3)`,
+                  }}
+                />
+              </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage color="red.500">
+              {errors.passwordConfirm && errors.passwordConfirm.message}
+            </FormErrorMessage>
+          </FormControl>
+          {/* 
+          Forgot Password
+          */}
           <FormHelperText textAlign="right">
-            <Link color="whiteAlpha.800">Mot de passe oublié ?</Link>
+            <Link>Mot de passe oublié ?</Link>
           </FormHelperText>
         </FormControl>
         <Button
           borderRadius={0}
           type="submit"
           variant="solid"
-          colorScheme="pink"
+          bg="pink.500"
+          color="whiteAlpha.900"
           width="full"
           _focus={{
             transform: `scale(0.98)`,
           }}
         >
-          Connexion
+          Inscription
         </Button>
       </Stack>
     </form>
