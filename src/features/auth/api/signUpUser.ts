@@ -20,7 +20,7 @@ export const signUpUser = async (
     },
   });
   if (user) {
-    throw Boom.badRequest(`L'utilisateur existe déjà`);
+    Boom.badRequest(`L'utilisateur existe déjà`);
   }
 
   const newUser = await prisma.user.create({
@@ -42,6 +42,7 @@ export const signUpUser = async (
     email: newUser.email,
     role: newUser.role,
   };
+
   const jwtSecret = process.env.JWT_SECRET;
   const token = { token: jwt.sign(session, jwtSecret) };
   return token;
