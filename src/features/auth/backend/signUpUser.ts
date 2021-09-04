@@ -10,7 +10,7 @@ export const signUpUser = async ({
   password,
 }: SignupPayLoad): Promise<AuthPayLoad | Boom.Boom<unknown>> => {
   if (!process.env.JWT_SECRET) {
-    return Boom.badImplementation(`Il manque le JWT`);
+    return Boom.badImplementation(`Il manque le JWT.`);
   }
 
   const user = await prisma.user.findUnique({
@@ -20,7 +20,7 @@ export const signUpUser = async ({
   });
 
   if (user) {
-    return Boom.badRequest(`L'utilisateur existe déjà`);
+    return Boom.badRequest(`L'utilisateur existe déjà.`);
   }
 
   const newUser = await prisma.user.create({
@@ -33,7 +33,7 @@ export const signUpUser = async ({
   });
 
   if (!newUser) {
-    throw Boom.badImplementation(`Impossible de créer le nouvel utilisateur`);
+    return Boom.badImplementation(`Impossible de créer le nouvel utilisateur.`);
   }
 
   const session: SessionUser = {

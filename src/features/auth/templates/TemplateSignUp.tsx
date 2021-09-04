@@ -15,7 +15,7 @@ export const TemplateSignUp = () => (
         <Heading color="purple.300" size="2xl" as="h1">
           Inscription
         </Heading>
-        <Box minW={{ base: `90%`, md: `468px` }}>
+        <Box minW={{ base: `90%`, md: `580px` }}>
           <FormSignup />
         </Box>
       </Stack>

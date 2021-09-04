@@ -32,7 +32,9 @@ export default async function handler(
         res.status(500).json(err);
       }
     } else {
-      res.status(400).send(`données manquantes`);
+      res.status(400).send(`Données manquantes.`);
     }
+  } else {
+    res.status(405).send(`Methode non autorisée.`);
   }
 }

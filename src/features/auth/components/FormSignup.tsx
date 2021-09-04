@@ -1,7 +1,8 @@
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  background,
   Button,
   chakra,
   FormControl,
@@ -21,6 +22,7 @@ import { FaUserAlt, FaLock, FaSearch } from 'react-icons/fa';
 import { IoMdMail as IoMail } from 'react-icons/io';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
+import { FormErrors } from '@/components/Form';
 import { SignupForm, SignupPayLoad } from '../types';
 import { useSignupMutation } from '../api/signupApi';
 
@@ -75,13 +77,8 @@ export const FormSignup = () => {
     signup(data);
   };
 
-  console.log(error);
-
   return (
     <form onSubmit={handleSubmit(FormSubmitHandler)}>
-      <FormErrorMessage color="gray.500">
-        Message d&apos;erreur
-      </FormErrorMessage>
       <Stack
         spacing={4}
         p="2rem"
@@ -89,6 +86,7 @@ export const FormSignup = () => {
         boxShadow="md"
         borderRadius="base"
       >
+        <FormErrorMessage>toto</FormErrorMessage>
         {/* 
         Name 
         */}
@@ -129,9 +127,8 @@ export const FormSignup = () => {
             </FormErrorMessage>
           </InputGroup>
         </FormControl>
-        {/* 
-        Password 
-        */}
+
+        {/* Password */}
         <FormControl isRequired isInvalid={!!errors?.password}>
           <InputGroup>
             <InputLeftElement pointerEvents="none" color="gray.300">
@@ -159,9 +156,8 @@ export const FormSignup = () => {
           <FormErrorMessage color="red.500">
             {errors.password && errors.password.message}
           </FormErrorMessage>
-          {/* 
-        Password Confirm
-        */}
+
+          {/* Password Confirm */}
           <FormControl isRequired isInvalid={!!errors?.passwordConfirm}>
             <InputGroup>
               <InputLeftElement pointerEvents="none" color="gray.300">
@@ -193,13 +189,14 @@ export const FormSignup = () => {
               {errors.passwordConfirm && errors.passwordConfirm.message}
             </FormErrorMessage>
           </FormControl>
-          {/* 
-          Forgot Password
-          */}
+          {/* Forgot Password */}
           <FormHelperText textAlign="right">
             <Link>Mot de passe oublié ?</Link>
           </FormHelperText>
         </FormControl>
+        {/* 
+          Submit
+          */}
         <Button
           isLoading={isLoading}
           loadingText="Envoi"
@@ -215,6 +212,10 @@ export const FormSignup = () => {
         >
           Inscription
         </Button>
+        {/* 
+          Handle Errors
+          */}
+        {error && <FormErrors error={error} />}
       </Stack>
     </form>
   );
