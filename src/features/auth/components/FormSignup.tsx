@@ -60,7 +60,7 @@ export const FormSignup = () => {
   });
   const [
     signup, // This is the mutation trigger
-    { isLoading: isSignuping, data: token }, // This is the destructured mutation result
+    { isLoading, data: token, error }, // This is the destructured mutation result
   ] = useSignupMutation();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -74,6 +74,8 @@ export const FormSignup = () => {
   ) => {
     signup(data);
   };
+
+  console.log(error);
 
   return (
     <form onSubmit={handleSubmit(FormSubmitHandler)}>
@@ -199,7 +201,7 @@ export const FormSignup = () => {
           </FormHelperText>
         </FormControl>
         <Button
-          isLoading={isSignuping}
+          isLoading={isLoading}
           loadingText="Envoi"
           borderRadius={0}
           type="submit"

@@ -8,9 +8,9 @@ export const signUpUser = async ({
   name,
   email,
   password,
-}: SignupPayLoad): Promise<AuthPayLoad> => {
+}: SignupPayLoad): Promise<AuthPayLoad | Boom.Boom<unknown>> => {
   if (!process.env.JWT_SECRET) {
-    throw Boom.badImplementation(`Il manque le JWT`);
+    return Boom.badImplementation(`Il manque le JWT`);
   }
 
   const user = await prisma.user.findUnique({
@@ -20,7 +20,7 @@ export const signUpUser = async ({
   });
 
   if (user) {
-    Boom.badRequest(`L'utilisateur existe déjà`);
+    return Boom.badRequest(`L'utilisateur existe déjà`);
   }
 
   const newUser = await prisma.user.create({
