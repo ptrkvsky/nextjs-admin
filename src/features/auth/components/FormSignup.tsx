@@ -23,6 +23,7 @@ import { IoMdMail as IoMail } from 'react-icons/io';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { FormErrors } from '@/components/Form';
+import { CheckIcon } from '@chakra-ui/icons';
 import { SignupForm, SignupPayLoad } from '../types';
 import { useSignupMutation } from '../api/signupApi';
 
@@ -62,8 +63,10 @@ export const FormSignup = () => {
   });
   const [
     signup, // This is the mutation trigger
-    { isLoading, data: token, error }, // This is the destructured mutation result
+    { isLoading, data: token, error, status }, // This is the destructured mutation result
   ] = useSignupMutation();
+
+  console.log(status);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleShowClick = () => setShowPassword(!showPassword);
@@ -198,12 +201,13 @@ export const FormSignup = () => {
           Submit
           */}
         <Button
+          leftIcon={status === `fulfilled` ? <CheckIcon /> : <></>}
           isLoading={isLoading}
           loadingText="Envoi"
           borderRadius={0}
           type="submit"
           variant="solid"
-          bg="pink.500"
+          bg={status === `fulfilled` ? `green.500` : `pink.500`}
           color="whiteAlpha.900"
           width="full"
           _focus={{
@@ -215,7 +219,7 @@ export const FormSignup = () => {
         {/* 
           Handle Errors
           */}
-        {error && <FormErrors error={error} />}
+        {error && <FormErrors error={error as FetchBaseQueryError} />}
       </Stack>
     </form>
   );

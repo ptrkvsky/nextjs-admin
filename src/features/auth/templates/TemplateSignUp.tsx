@@ -12,7 +12,7 @@ export const TemplateSignUp = () => (
         alignItems="center"
       >
         <Avatar bg="purple.400" />
-        <Heading color="purple.300" size="2xl" as="h1">
+        <Heading mb="24" color="purple.300" size="2xl" as="h1">
           Inscription
         </Heading>
         <Box minW={{ base: `90%`, md: `580px` }}>
