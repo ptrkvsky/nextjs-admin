@@ -5,19 +5,17 @@ import {
   AlertDescription,
   CloseButton,
 } from '@chakra-ui/react';
-import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import React from 'react';
-
-/**
- * Handle errors returns returned by the backend
- * @param error
- */
 
 interface PropsFormErrors {
   error: FetchBaseQueryError;
 }
 
+/**
+ * Handle errors returns returned by the backend
+ * @param error
+ */
 export const FormErrors = ({ error }: PropsFormErrors) => {
   const errorMessage =
     error.status === 500
