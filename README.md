@@ -25,6 +25,9 @@ A TypeScript starter for Next.js that includes all you need to build amazing pro
 - 🚫 **lint-staged** - Run linters against staged git files
 - 👷 **PR Workflow** - Run Type Check & Linters on pull requests
 - 🗂 **Absolute import** - Import folders and files using the `@` prefix
+- 🗂 **Dotenv safe** - ENforce environment variable
+- 🗂 **Prisma** - Lovely ORM
+- 🗂 **Chakra-ui** - Compoenent style libray
 
 ## 🚀 Getting started
 
