@@ -1,12 +1,12 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { signUpSlice } from '@/features/auth/services/signUpSlice';
+import { backendApi } from '@/app/backendApi';
 
 export const store = configureStore({
   reducer: {
-    [signUpSlice.reducerPath]: signUpSlice.reducer,
-    // This is where we add reducers.
-    // Since we don't have any yet, leave this empty
+    [backendApi.reducerPath]: backendApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(backendApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

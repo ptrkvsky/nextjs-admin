@@ -21,16 +21,11 @@ import { FaUserAlt, FaLock, FaSearch } from 'react-icons/fa';
 import { IoMdMail as IoMail } from 'react-icons/io';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
+import { SignupForm, SignupPayLoad } from '../types';
+import { useSignupMutation } from '../api/signupApi';
 
 const CFaLock = chakra(FaLock);
 const CFaSearch = chakra(FaSearch);
-
-interface IFormInputs {
-  name: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-}
 
 const schema = yup.object().shape({
   name: yup
@@ -60,9 +55,13 @@ export const FormSignup = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInputs>({
+  } = useForm<SignupForm>({
     resolver: yupResolver(schema),
   });
+  const [
+    signup, // This is the mutation trigger
+    { isLoading: isSignuping, data: token }, // This is the destructured mutation result
+  ] = useSignupMutation();
 
   const [showPassword, setShowPassword] = useState(false);
   const handleShowClick = () => setShowPassword(!showPassword);
@@ -70,22 +69,14 @@ export const FormSignup = () => {
   const bgFormColor = useColorModeValue(`gray.100`, `gray.700`);
   const iconColor = useColorModeValue(`gray.400`, `gray.300`);
 
-  console.log(errors);
-
-  const formSubmitHandler: SubmitHandler<IFormInputs> = async (
-    data: IFormInputs,
+  const FormSubmitHandler: SubmitHandler<SignupPayLoad> = (
+    data: SignupPayLoad,
   ) => {
-    fetch(`http://localhost:3000/api/signup`, {
-      method: `POST`,
-      headers: {
-        'Content-Type': `application/json`,
-      },
-      body: JSON.stringify(data),
-    });
+    signup(data);
   };
 
   return (
-    <form onSubmit={handleSubmit(formSubmitHandler)}>
+    <form onSubmit={handleSubmit(FormSubmitHandler)}>
       <FormErrorMessage color="gray.500">
         Message d&apos;erreur
       </FormErrorMessage>
@@ -208,6 +199,8 @@ export const FormSignup = () => {
           </FormHelperText>
         </FormControl>
         <Button
+          isLoading={isSignuping}
+          loadingText="Envoi"
           borderRadius={0}
           type="submit"
           variant="solid"
