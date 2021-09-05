@@ -32,17 +32,15 @@ model Post {
 model Token {
   id         Int       @id @default(autoincrement())
   createdAt  DateTime  @default(now())
-  updatedAt  DateTime
   type       TokenType
-  emailToken String?   @unique
-  valid      Boolean   @default(true)
-  expiration DateTime
+  token      String?   @unique
   userId     Int
   User       User      @relation(fields: [userId], references: [id])
 }
 
 model User {
   id       Int     @id @default(autoincrement())
+  active   Boolean @default(false)
   email    String  @unique
   name     String?
   password String

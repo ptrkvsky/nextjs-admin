@@ -1,4 +1,3 @@
-import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import React, { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -33,19 +32,19 @@ const CFaSearch = chakra(FaSearch);
 const schema = yup.object().shape({
   name: yup
     .string()
-    .min(4, `La longueur min est 4`)
-    .max(20, `La longueur maximale est 20`)
+    .min(3, `La longueur min est 3`)
+    .max(30, `La longueur maximale est 30`)
     .required(),
   email: yup.string().email().required(),
   password: yup
     .string()
-    .min(4, `La longueur min est 4`)
-    .max(20, `La longueur maximale est 20`)
+    .min(4, `La longueur min est 3`)
+    .max(30, `La longueur maximale est 30`)
     .required(`Ce champ est obligatoire`),
   passwordConfirm: yup
     .string()
-    .min(4, `La longueur min est 4`)
-    .max(20, `La longueur maximale est 20`)
+    .min(4, `La longueur min est 3`)
+    .max(30, `La longueur maximale est 30`)
     .oneOf(
       [yup.ref(`password`), null],
       `Les mots de passe doivent être identique`,
@@ -65,8 +64,6 @@ export const FormSignup = () => {
     signup, // This is the mutation trigger
     { isLoading, data: token, error, status }, // This is the destructured mutation result
   ] = useSignupMutation();
-
-  console.log(status);
 
   const [showPassword, setShowPassword] = useState(false);
   const handleShowClick = () => setShowPassword(!showPassword);
