@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Stack, Box, Avatar } from '@chakra-ui/react';
 
 import { AdminMainTitle } from '@/components/Titles';
-import { BoxConfirmation } from '@/features/auth/components/BoxConfirmation';
+import { BoxConfirmation } from '@/features/auth/components/Confirmation';
 
 export const TemplateConfirmation = () => (
   <Flex flexDirection="column" justifyContent="center" alignItems="center">

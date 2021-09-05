@@ -14,7 +14,7 @@ export interface SignupForm extends SignupPayLoad {
   passwordConfirm: string;
 }
 
-export interface SessionUser {
+export interface AuthToken {
   id: number;
   name: string | null;
   email: string;

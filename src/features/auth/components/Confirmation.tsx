@@ -10,9 +10,9 @@ import React from 'react';
 
 export const BoxConfirmation = () => {
   const router = useRouter();
-  const { data, isFetching } = useConfirmQuery(`pepperoni pizza`);
+  const { token } = router.query;
 
-  console.log(data);
+  const { data, isFetching } = useConfirmQuery(token as string);
 
   return router.query?.token ? (
     <div>Votre compte a bien été créé</div>

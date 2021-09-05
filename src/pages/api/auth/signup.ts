@@ -29,7 +29,7 @@ export default async function handler(
             .json(boomError.output.payload.message);
         }
       } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json({ err });
       }
     } else {
       res.status(400).send(`Données manquantes`);

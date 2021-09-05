@@ -7,7 +7,7 @@ export const Menu: FC = (): JSX.Element => (
     <Box
       as="ul"
       display="grid"
-      gridTemplateColumns="repeat(999, 1fr)"
+      gridTemplateColumns="repeat(5, 1fr)"
       gridTemplateRows="1fr"
       listStyleType="none"
       m="0"
@@ -21,7 +21,7 @@ export const Menu: FC = (): JSX.Element => (
         <Link href="/admin/auth/signin">Connexion</Link>
       </li>
       <li>
-        <Link href="/admin/auth/confirmation?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTgsIm5hbWUiOiJ0ZXN0IiwiZW1haWwiOiJsZW8yQGRldmVsb3BwZXVyLXdlYi50ZWNoIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2MzA3OTE4NjQsImV4cCI6MTYzMDc5MjQ2NH0.aJyaPVCQ5z2KCeVpmBAjWSKK2Tkt8Uc6NmyqaOWbG8Y">
+        <Link href="/admin/auth/confirmation?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjMsIm5hbWUiOiJxc2Rxc2QiLCJlbWFpbCI6InFzZHFzZHFzZEBzZHNzLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjMwODc0ODQ1LCJleHAiOjE2MzE3Mzg4NDV9.pJtl_7QPDlmRZ3yW7mn1F-eAlO_ANGRg6_yxuZYm1jo">
           Confirmation
         </Link>
       </li>

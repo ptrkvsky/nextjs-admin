@@ -1,2 +1,2 @@
-export * from './BoxConfirmation';
+export * from './Confirmation';
 export * from './FormSignup';

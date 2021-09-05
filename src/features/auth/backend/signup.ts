@@ -4,7 +4,7 @@ import Joi from 'joi';
 import Boom from '@hapi/boom';
 import prisma from '@/lib/prisma';
 import { sendConfirmationMail } from '@/features/auth/backend/sendConfirmationMail';
-import { AuthPayLoad, SessionUser, SignupPayLoad } from '@/features/auth/types';
+import { AuthPayLoad, AuthToken, SignupPayLoad } from '@/features/auth/types';
 
 const schema = Joi.object({
   name: Joi.string().min(3).max(30),
@@ -50,7 +50,7 @@ export const signup = async ({
     return Boom.badImplementation(`Impossible de créer le nouvel utilisateur.`);
   }
 
-  const session: SessionUser = {
+  const session: AuthToken = {
     id: newUser.id,
     name: newUser.name,
     email: newUser.email,
@@ -58,7 +58,7 @@ export const signup = async ({
   };
 
   const jwtSecret = process.env.JWT_SECRET;
-  const token = jwt.sign(session, jwtSecret, { expiresIn: `10m` });
+  const token = jwt.sign(session, jwtSecret, { expiresIn: `10d` });
 
   try {
     sendConfirmationMail(email, token);
