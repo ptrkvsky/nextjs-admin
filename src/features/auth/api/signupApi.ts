@@ -6,7 +6,7 @@ export const signupApi = backendApi.injectEndpoints({
     signup: build.mutation<AuthPayLoad, SignupPayLoad>({
       // note: an optional `queryFn` may be used in place of `query`
       query: ({ ...patch }) => ({
-        url: `signup`,
+        url: `/auth/signup`,
         method: `POST`,
         body: patch,
       }),

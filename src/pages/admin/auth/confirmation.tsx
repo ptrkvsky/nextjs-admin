@@ -1,14 +1,14 @@
 import React from 'react';
 import { Head } from '@/components/Head';
-import { TemplateSignup } from '@/features/auth/templates';
+import { TemplateConfirmation } from '@/features/auth/templates';
 import { LayoutMain } from '@/components/Layouts/LayoutMain';
 
-export default function Signup() {
+export default function Confirmation() {
   return (
     <>
-      <Head title="Inscription" />
+      <Head title="Confirmation" />
       <LayoutMain>
-        <TemplateSignup />
+        <TemplateConfirmation />
       </LayoutMain>
     </>
   );

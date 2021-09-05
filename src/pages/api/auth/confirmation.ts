@@ -9,7 +9,7 @@ export default function handler(
   res: NextApiResponse<Data>,
 ) {
   if (req.method === `GET`) {
-    console.log(req.query.token);
+    const { token } = req.query;
     res.status(200).json({ name: `John Doe` });
   }
 }

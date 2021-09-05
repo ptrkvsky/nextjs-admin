@@ -1,5 +1,5 @@
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import React, { useState } from 'react';
+import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
@@ -12,22 +12,18 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  InputRightElement,
-  Link,
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { FaUserAlt, FaLock, FaSearch } from 'react-icons/fa';
+import { FaUserAlt } from 'react-icons/fa';
 import { IoMdMail as IoMail } from 'react-icons/io';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
 import { FormErrors } from '@/components/Form';
 import { CheckIcon } from '@chakra-ui/icons';
 import { SignupForm, SignupPayLoad } from '../types';
 import { useSignupMutation } from '../api/signupApi';
-
-const CFaLock = chakra(FaLock);
-const CFaSearch = chakra(FaSearch);
+import { PasswordInputs } from './PasswordsInputs';
 
 const schema = yup.object().shape({
   name: yup
@@ -53,20 +49,13 @@ const schema = yup.object().shape({
 });
 
 export const FormSignup = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignupForm>({
+  const methods = useForm<SignupForm>({
     resolver: yupResolver(schema),
   });
   const [
     signup, // This is the mutation trigger
     { isLoading, data: token, error, status }, // This is the destructured mutation result
   ] = useSignupMutation();
-
-  const [showPassword, setShowPassword] = useState(false);
-  const handleShowClick = () => setShowPassword(!showPassword);
 
   const bgFormColor = useColorModeValue(`gray.100`, `gray.700`);
   const iconColor = useColorModeValue(`gray.400`, `gray.300`);
@@ -78,146 +67,72 @@ export const FormSignup = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(FormSubmitHandler)}>
-      <Stack
-        spacing={4}
-        p="2rem"
-        backgroundColor={bgFormColor}
-        boxShadow="md"
-        borderRadius="base"
-      >
-        <FormErrorMessage>toto</FormErrorMessage>
-        {/* 
-        Name 
-        */}
-        <FormControl isRequired isInvalid={!!errors?.name}>
-          <InputGroup>
-            <InputLeftElement pointerEvents="none">
-              <Icon as={FaUserAlt} w={4} h={4} color={iconColor} />
-            </InputLeftElement>
-            <Input
-              type="text"
-              placeholder="Nom"
-              variant="flushed"
-              focusBorderColor="pink.400"
-              {...register(`name`)}
-            />
-            <FormErrorMessage>
-              {errors.email && `erreur email`}
-            </FormErrorMessage>
-          </InputGroup>
-        </FormControl>
-        {/* 
-        Email 
-        */}
-        <FormControl isRequired isInvalid={!!errors?.email}>
-          <InputGroup>
-            <InputLeftElement pointerEvents="none">
-              <Icon as={IoMail} w={5} h={5} color={iconColor} />
-            </InputLeftElement>
-            <Input
-              type="email"
-              placeholder="E-mail"
-              variant="flushed"
-              focusBorderColor="pink.400"
-              {...register(`email`)}
-            />
-            <FormErrorMessage>
-              {errors.email && `erreur email`}
-            </FormErrorMessage>
-          </InputGroup>
-        </FormControl>
-
-        {/* Password */}
-        <FormControl isRequired isInvalid={!!errors?.password}>
-          <InputGroup>
-            <InputLeftElement pointerEvents="none" color="gray.300">
-              <CFaLock color="whiteAlpha.900" />
-            </InputLeftElement>
-            <Input
-              type={showPassword ? `text` : `password`}
-              placeholder="Mot de passe"
-              variant="flushed"
-              focusBorderColor="pink.400"
-              {...register(`password`)}
-            />
-            <InputRightElement width="4.5rem">
-              <IconButton
-                colorScheme="pink"
-                aria-label="Afficher le mot de passe"
-                icon={<CFaSearch color="pink.400" />}
-                onClick={handleShowClick}
-                size="md"
-                background="transparent"
-                _hover={{ background: `transparent`, transform: `scale(1.3)` }}
-              />
-            </InputRightElement>
-          </InputGroup>
-          <FormErrorMessage color="red.500">
-            {errors.password && errors.password.message}
-          </FormErrorMessage>
-
-          {/* Password Confirm */}
-          <FormControl isRequired isInvalid={!!errors?.passwordConfirm}>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(FormSubmitHandler)}>
+        <Stack
+          spacing={4}
+          p="2rem"
+          backgroundColor={bgFormColor}
+          boxShadow="md"
+          borderRadius="base"
+        >
+          <FormControl isRequired isInvalid={!!methods.formState.errors?.name}>
             <InputGroup>
-              <InputLeftElement pointerEvents="none" color="gray.300">
-                <CFaLock color="whiteAlpha.900" />
+              <InputLeftElement pointerEvents="none">
+                <Icon as={FaUserAlt} w={4} h={4} color={iconColor} />
               </InputLeftElement>
               <Input
-                type={showPassword ? `text` : `password`}
-                placeholder="Confirmation"
+                type="text"
+                placeholder="Nom"
                 variant="flushed"
                 focusBorderColor="pink.400"
-                {...register(`passwordConfirm`)}
+                {...methods.register(`name`)}
               />
-              <InputRightElement width="4.5rem">
-                <IconButton
-                  colorScheme="pink"
-                  aria-label="Afficher le mot de passe"
-                  icon={<CFaSearch color="pink.400" />}
-                  onClick={handleShowClick}
-                  size="md"
-                  background="transparent"
-                  _hover={{
-                    background: `transparent`,
-                    transform: `scale(1.3)`,
-                  }}
-                />
-              </InputRightElement>
+              <FormErrorMessage>
+                {methods.formState.errors.email && `erreur email`}
+              </FormErrorMessage>
             </InputGroup>
-            <FormErrorMessage color="red.500">
-              {errors.passwordConfirm && errors.passwordConfirm.message}
-            </FormErrorMessage>
           </FormControl>
-          {/* Forgot Password */}
-          <FormHelperText textAlign="right">
-            <Link>Mot de passe oublié ?</Link>
-          </FormHelperText>
-        </FormControl>
-        {/* 
-          Submit
-          */}
-        <Button
-          leftIcon={status === `fulfilled` ? <CheckIcon /> : <></>}
-          isLoading={isLoading}
-          loadingText="Envoi"
-          borderRadius={0}
-          type="submit"
-          variant="solid"
-          bg={status === `fulfilled` ? `green.500` : `pink.500`}
-          color="whiteAlpha.900"
-          width="full"
-          _focus={{
-            transform: `scale(0.98)`,
-          }}
-        >
-          Inscription
-        </Button>
-        {/* 
-          Handle Errors
-          */}
-        {error && <FormErrors error={error as FetchBaseQueryError} />}
-      </Stack>
-    </form>
+
+          <FormControl isRequired isInvalid={!!methods.formState.errors?.email}>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <Icon as={IoMail} w={5} h={5} color={iconColor} />
+              </InputLeftElement>
+              <Input
+                type="email"
+                placeholder="E-mail"
+                variant="flushed"
+                focusBorderColor="pink.400"
+                {...methods.register(`email`)}
+              />
+              <FormErrorMessage>
+                {methods.formState.errors.email && `erreur email`}
+              </FormErrorMessage>
+            </InputGroup>
+          </FormControl>
+
+          <PasswordInputs iconColor={iconColor} />
+
+          <Button
+            leftIcon={status === `fulfilled` ? <CheckIcon /> : <></>}
+            isLoading={isLoading}
+            loadingText="Envoi"
+            borderRadius={0}
+            type="submit"
+            variant="solid"
+            bg={status === `fulfilled` ? `green.500` : `pink.500`}
+            color="whiteAlpha.900"
+            width="full"
+            _focus={{
+              transform: `scale(0.98)`,
+            }}
+          >
+            Inscription
+          </Button>
+          {error && <FormErrors error={error as FetchBaseQueryError} />}
+        </Stack>
+      </form>
+    </FormProvider>
   );
 };
