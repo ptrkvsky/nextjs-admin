@@ -4,7 +4,7 @@ import {
   withDefaultColorScheme,
   theme as baseTheme,
 } from '@chakra-ui/react';
-import { styles } from '@/styles/theme/styles';
+// import { styles } from '@/styles/theme/styles';
 import { Button } from '@/styles/theme/components';
 import { config } from './config';
 
