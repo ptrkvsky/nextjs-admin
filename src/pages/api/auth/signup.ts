@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { AuthPayLoad, SignupPayLoad } from '@/features/auth/types';
-import { signup } from '@/features/auth/backend/signup';
+import { signup } from '@/features/auth/backend/services';
 import { Boom } from '@hapi/boom';
 
 function typeGuard(toBeDetermined: any): toBeDetermined is AuthPayLoad {
@@ -12,7 +12,7 @@ function typeGuard(toBeDetermined: any): toBeDetermined is AuthPayLoad {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<AuthPayLoad | string | Boom<unknown>>,
+  res: NextApiResponse<AuthPayLoad | string>,
 ) {
   if (req.method === `POST`) {
     const signupPayLoad = req.body as SignupPayLoad;
@@ -29,7 +29,9 @@ export default async function handler(
             .json(boomError.output.payload.message);
         }
       } catch (err) {
-        res.status(500).json({ err });
+        res
+          .status(500)
+          .json(`Une erreur est survenue pendant l'enregistrement`);
       }
     } else {
       res.status(400).send(`Données manquantes`);

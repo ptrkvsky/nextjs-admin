@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { confirmation } from '@/features/auth/backend';
+import { serviceConfirmation } from '@/features/auth/backend/services';
 import { Boom } from '@hapi/boom';
 
 export default async function handler(
@@ -9,7 +9,7 @@ export default async function handler(
   if (req.method === `GET`) {
     const token = req.headers.authorization?.split(` `)[1];
     if (token) {
-      const data = await confirmation(token as string);
+      const data = await serviceConfirmation(token as string);
       if (typeof data === `string`) {
         res.status(200).json(data);
       } else {

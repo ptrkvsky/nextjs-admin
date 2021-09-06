@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import Joi from 'joi';
-import Boom from '@hapi/boom';
 import prisma from '@/lib/prisma';
 
 export const signin = async (
