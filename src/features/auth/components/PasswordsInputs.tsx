@@ -1,20 +1,14 @@
 import { FC, useState } from 'react';
-import { FaUserAlt, FaLock, FaSearch } from 'react-icons/fa';
+import { FaLock, FaSearch } from 'react-icons/fa';
 import {
-  Button,
   chakra,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
-  Icon,
   IconButton,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  Link,
-  Stack,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
 

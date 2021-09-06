@@ -12,7 +12,7 @@ export const BoxConfirmation = () => {
   const router = useRouter();
   const { token } = router.query;
 
-  const { data, isFetching } = useConfirmQuery(token as string);
+  useConfirmQuery(token as string);
 
   return router.query?.token ? (
     <div>Votre compte a bien été créé</div>

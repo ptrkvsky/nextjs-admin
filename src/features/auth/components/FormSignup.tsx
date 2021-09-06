@@ -3,12 +3,9 @@ import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
-  chakra,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
   Icon,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -54,7 +51,7 @@ export const FormSignup = () => {
   });
   const [
     signup, // This is the mutation trigger
-    { isLoading, data: token, error, status }, // This is the destructured mutation result
+    { isLoading, error, status }, // This is the destructured mutation result
   ] = useSignupMutation();
 
   const bgFormColor = useColorModeValue(`gray.100`, `gray.700`);

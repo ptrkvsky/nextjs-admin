@@ -16,7 +16,7 @@ export const sendConfirmationMail = async (email: string, token: string) => {
     mail.setApiKey(process.env.SENDGRID_API_KEY);
 
     await mail.send({
-      to: `johan.petrikovsky@gmail.com`,
+      to: email,
       from: process.env.MAIL_FROM,
       subject: `Confirmation d'inscription`,
       text: `Confirmation d'inscription`,
