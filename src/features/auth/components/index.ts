@@ -1,2 +1,2 @@
-export * from './Confirmation';
-export * from './FormSignup';
+export * from '.';
+export * from './signup/FormSignup';

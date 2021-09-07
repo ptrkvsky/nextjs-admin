@@ -10,7 +10,19 @@ import {
 import { FormSignup } from '@/features/auth/components';
 import { AdminMainTitle } from '@/components/Titles';
 
-export const TemplateSignup: FC = (): JSX.Element => {
+/**
+ * Template used for signup / signin / Confirmation
+ */
+interface Props {
+  title: string;
+  content: React.ReactNode;
+  footer?: React.ReactNode;
+}
+export const TemplateAuth: FC<Props> = ({
+  title,
+  content,
+  footer,
+}: Props): JSX.Element => {
   const iconBg = useColorModeValue(`purple.500`, `purple.100`);
   return (
     <Flex flexDirection="column" justifyContent="center" alignItems="center">
@@ -22,17 +34,13 @@ export const TemplateSignup: FC = (): JSX.Element => {
           alignItems="center"
         >
           <Avatar bg={iconBg} />
-          <AdminMainTitle>Inscription</AdminMainTitle>
+          <AdminMainTitle>{title}</AdminMainTitle>
           <Box minW={{ base: `90%`, md: `580px` }}>
-            <FormSignup />
+            {/* <FormSignup /> */}
+            {content}
           </Box>
         </Stack>
-        <Box>
-          Déjà un compte ?
-          <Link color="purple.300" href="/admin/signin">
-            GO GO GO !
-          </Link>
-        </Box>
+        {footer && footer}
       </Box>
     </Flex>
   );

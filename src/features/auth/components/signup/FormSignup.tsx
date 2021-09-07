@@ -17,9 +17,9 @@ import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import * as yup from 'yup';
 import { FormErrors } from '@/components/Form';
 import { FormButton } from '@/components/Form/FormButton';
-import { AuthPayload } from '../types';
-import { useSignupMutation } from '../api/signupApi';
-import { PasswordInputs } from './PasswordsInputs';
+import { SignupForm, AuthPayload } from '../../types';
+import { useSignupMutation } from '../../api/signupApi';
+import { PasswordInputs } from '../PasswordsInputs';
 
 const schema = yup.object().shape({
   name: yup
@@ -33,10 +33,19 @@ const schema = yup.object().shape({
     .min(4, `La longueur min est 3`)
     .max(30, `La longueur maximale est 30`)
     .required(`Ce champ est obligatoire`),
+  passwordConfirm: yup
+    .string()
+    .min(4, `La longueur min est 3`)
+    .max(30, `La longueur maximale est 30`)
+    .oneOf(
+      [yup.ref(`password`), null],
+      `Les mots de passe doivent être identique`,
+    )
+    .required(`Ce champ est obligatoire`),
 });
 
-export const FormSignin = () => {
-  const methods = useForm<AuthPayload>({
+export const FormSignup = () => {
+  const methods = useForm<SignupForm>({
     resolver: yupResolver(schema),
   });
   const [
@@ -97,7 +106,7 @@ export const FormSignin = () => {
             </InputGroup>
           </FormControl>
 
-          <PasswordInputs confirmation={false} iconColor={iconColor} />
+          <PasswordInputs iconColor={iconColor} />
 
           <FormButton
             label="Inscription"
