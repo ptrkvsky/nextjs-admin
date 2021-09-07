@@ -1,11 +1,11 @@
 import { backendApi } from '@/app/backendApi';
 import { SessionPayload, AuthPayload } from '../types';
 
-export const signupApi = backendApi.injectEndpoints({
+export const signinApi = backendApi.injectEndpoints({
   endpoints: (build) => ({
-    signup: build.mutation<SessionPayload, AuthPayload>({
+    signin: build.mutation<SessionPayload, AuthPayload>({
       query: ({ ...patch }) => ({
-        url: `/auth/signup`,
+        url: `/auth/signin`,
         method: `POST`,
         body: patch,
       }),
@@ -16,4 +16,4 @@ export const signupApi = backendApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useSignupMutation } = signupApi;
+export const { useSigninMutation } = signinApi;

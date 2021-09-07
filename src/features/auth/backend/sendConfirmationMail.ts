@@ -15,16 +15,17 @@ export const sendConfirmationMail = async (email: string, token: string) => {
   ) {
     mail.setApiKey(process.env.SENDGRID_API_KEY);
 
+    const htmlEmail = confirmationEmailTemplate
+      .replace(`[**EMAIL**]`, email)
+      .replace(`[**TOKEN**]`, token)
+      .replace(`[**GITHUB_PROFILE**]`, process.env.GITHUB_URL);
+
     await mail.send({
       to: email,
       from: process.env.MAIL_FROM,
       subject: `Confirmation d'inscription`,
       text: `Confirmation d'inscription`,
-      html: confirmationEmailTemplate
-        .replace(`[**EMAIL**]`, email)
-        .replace(`[**TOKEN**]`, token)
-        .replace(`[**WEBSITE_URL**]`, process.env.WEBSITE_URL)
-        .replace(`[**GITHUB_PROFILE**]`, process.env.GITHUB_URL),
+      html: htmlEmail,
     });
   }
 };

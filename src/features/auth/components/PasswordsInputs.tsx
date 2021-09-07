@@ -14,16 +14,18 @@ import { useFormContext } from 'react-hook-form';
 
 interface Props {
   iconColor: string;
+  confirmation?: boolean;
 }
 
 /**
  * Display password and confirm password input
  * @param iconColor color for lock icon
- * @param errors React hook form errors
+ * @param confirmation show confirmation password input
  * @returns
  */
 export const PasswordInputs: FC<Props> = ({
   iconColor,
+  confirmation = true,
 }: Props): JSX.Element => {
   const {
     register,
@@ -65,37 +67,39 @@ export const PasswordInputs: FC<Props> = ({
           {errors.password && errors.password.message}
         </FormErrorMessage>
       </FormControl>
-      <FormControl isRequired isInvalid={!!errors?.passwordConfirm}>
-        <InputGroup>
-          <InputLeftElement pointerEvents="none" color="gray.300">
-            <CFaLock color={iconColor} />
-          </InputLeftElement>
-          <Input
-            type={showPassword ? `text` : `password`}
-            placeholder="Confirmation"
-            variant="flushed"
-            focusBorderColor="pink.400"
-            {...register(`passwordConfirm`)}
-          />
-          <InputRightElement width="4.5rem">
-            <IconButton
-              colorScheme="pink"
-              aria-label="Afficher le mot de passe"
-              icon={<CFaSearch color="pink.400" />}
-              onClick={handleShowClick}
-              size="md"
-              background="transparent"
-              _hover={{
-                background: `transparent`,
-                transform: `scale(1.3)`,
-              }}
+      {confirmation && (
+        <FormControl isRequired isInvalid={!!errors?.passwordConfirm}>
+          <InputGroup>
+            <InputLeftElement pointerEvents="none" color="gray.300">
+              <CFaLock color={iconColor} />
+            </InputLeftElement>
+            <Input
+              type={showPassword ? `text` : `password`}
+              placeholder="Confirmation"
+              variant="flushed"
+              focusBorderColor="pink.400"
+              {...register(`passwordConfirm`)}
             />
-          </InputRightElement>
-        </InputGroup>
-        <FormErrorMessage color="red.500">
-          {errors.passwordConfirm && errors.passwordConfirm.message}
-        </FormErrorMessage>
-      </FormControl>
+            <InputRightElement width="4.5rem">
+              <IconButton
+                colorScheme="pink"
+                aria-label="Afficher le mot de passe"
+                icon={<CFaSearch color="pink.400" />}
+                onClick={handleShowClick}
+                size="md"
+                background="transparent"
+                _hover={{
+                  background: `transparent`,
+                  transform: `scale(1.3)`,
+                }}
+              />
+            </InputRightElement>
+          </InputGroup>
+          <FormErrorMessage color="red.500">
+            {errors.passwordConfirm && errors.passwordConfirm.message}
+          </FormErrorMessage>
+        </FormControl>
+      )}
     </>
   );
 };

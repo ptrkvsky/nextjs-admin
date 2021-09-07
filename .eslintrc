@@ -37,6 +37,13 @@
       }
     ],
     "quotes": "off",
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["state"]
+      }
+    ],
     "jsx-a11y/anchor-is-valid": [
       "error",
       {

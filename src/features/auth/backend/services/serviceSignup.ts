@@ -4,7 +4,7 @@ import Joi from 'joi';
 import Boom from '@hapi/boom';
 import prisma from '@/lib/prisma';
 import { sendConfirmationMail } from '@/features/auth/backend/sendConfirmationMail';
-import { AuthPayLoad, AuthToken, SignupPayLoad } from '@/features/auth/types';
+import { SessionPayload, AuthToken, AuthPayload } from '@/features/auth/types';
 
 const schema = Joi.object({
   name: Joi.string().min(3).max(30),
@@ -16,7 +16,7 @@ export const signup = async ({
   name,
   email,
   password,
-}: SignupPayLoad): Promise<AuthPayLoad | Boom.Boom<unknown>> => {
+}: AuthPayload): Promise<SessionPayload | Boom.Boom<unknown>> => {
   if (!process.env.JWT_SECRET) {
     return Boom.badImplementation(
       `Variable d'environnement JWT_SECRET manquante.`,
