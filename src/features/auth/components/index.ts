@@ -1,2 +1,2 @@
-export * from '.';
-export * from './signup/FormSignup';
+export * from './PasswordsInputs';
+export * from './signup/form/FormSignup';

@@ -1,16 +1,15 @@
 import { backendApi } from '@/app/backendApi';
-import { SessionPayload, AuthPayload } from '../types';
+import { Session, SigninValues } from '@/features/auth/types';
 
 export const signinApi = backendApi.injectEndpoints({
   endpoints: (build) => ({
-    signin: build.mutation<SessionPayload, AuthPayload>({
+    signin: build.mutation<Session, SigninValues>({
       query: ({ ...patch }) => ({
         url: `/auth/signin`,
         method: `POST`,
         body: patch,
       }),
       // Pick out data and prevent nested properties in a hook or selector
-      transformResponse: (response: { data: SessionPayload }) => response.data,
     }),
   }),
   overrideExisting: false,

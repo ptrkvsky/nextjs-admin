@@ -1,9 +1,5 @@
 import { User as PrismaUser, Role } from '@prisma/client';
 
-export interface SessionPayload {
-  token: string;
-}
-
 export interface AuthToken {
   id: number;
   name: string | null;
@@ -11,14 +7,17 @@ export interface AuthToken {
   role: Role;
 }
 
-export interface SignupForm extends AuthPayload {
-  passwordConfirm: string;
+export interface Session {
+  user: User | null;
+  token: string | null;
 }
-
-export interface AuthPayload {
+export interface SignupValues {
   name: string | null;
   email: string;
   password: string;
+  passwordConfirm: string;
 }
+
+export type SigninValues = Omit<SignupValues, 'name' | 'passwordConfirm'>;
 
 export type User = Omit<PrismaUser, 'password'>;

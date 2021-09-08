@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Session, SignupValues } from '@/features/auth/types';
-import { signup } from '@/features/auth/backend/services';
+import { SigninValues, Session } from '@/features/auth/types';
+import { signin } from '@/features/auth/backend/services';
 import { Boom } from '@hapi/boom';
 
 function typeGuard(toBeDetermined: any): toBeDetermined is Session {
@@ -15,10 +15,10 @@ export default async function handler(
   res: NextApiResponse<Session | string>,
 ) {
   if (req.method === `POST`) {
-    const authPayload = req.body as SignupValues;
+    const authPayload = req.body as SigninValues;
     if (authPayload) {
       try {
-        const data = await signup(authPayload);
+        const data = await signin(authPayload);
         const isToken = typeGuard(data);
         if (isToken) {
           res.status(200).json(data);

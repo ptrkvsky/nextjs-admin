@@ -14,30 +14,16 @@ import {
 import { FaUserAlt } from 'react-icons/fa';
 import { IoMdMail as IoMail } from 'react-icons/io';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
-import * as yup from 'yup';
+import { SignupValues } from '@/features/auth/types';
 import { FormErrors } from '@/components/Form';
 import { FormButton } from '@/components/Form/FormButton';
-import { AuthPayload } from '../../types';
-import { useSignupMutation } from '../../api/signupApi';
-import { PasswordInputs } from '../PasswordsInputs';
+import schemaSignup from '@/features/auth/components/signup/form/schemaSignup';
+import { useSignupMutation } from '@/features/auth/api/signupApi';
+import { PasswordInputs } from '@/features/auth/components/PasswordsInputs';
 
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .min(3, `La longueur min est 3`)
-    .max(30, `La longueur maximale est 30`)
-    .required(),
-  email: yup.string().email().required(),
-  password: yup
-    .string()
-    .min(4, `La longueur min est 3`)
-    .max(30, `La longueur maximale est 30`)
-    .required(`Ce champ est obligatoire`),
-});
-
-export const FormSignin = () => {
-  const methods = useForm<AuthPayload>({
-    resolver: yupResolver(schema),
+export const FormSignup = () => {
+  const methods = useForm<SignupValues>({
+    resolver: yupResolver(schemaSignup),
   });
   const [
     signup, // This is the mutation trigger
@@ -47,7 +33,9 @@ export const FormSignin = () => {
   const bgFormColor = useColorModeValue(`gray.100`, `gray.700`);
   const iconColor = useColorModeValue(`gray.400`, `gray.300`);
 
-  const FormSubmitHandler: SubmitHandler<AuthPayload> = (data: AuthPayload) => {
+  const FormSubmitHandler: SubmitHandler<SignupValues> = (
+    data: SignupValues,
+  ) => {
     signup(data);
   };
 
@@ -97,7 +85,7 @@ export const FormSignin = () => {
             </InputGroup>
           </FormControl>
 
-          <PasswordInputs confirmation={false} iconColor={iconColor} />
+          <PasswordInputs iconColor={iconColor} />
 
           <FormButton
             label="Inscription"

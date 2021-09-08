@@ -1,32 +1,26 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import Joi from 'joi';
 import Boom from '@hapi/boom';
 import prisma from '@/lib/prisma';
+import schemaSignup from '@/features/auth/components/signup/form/schemaSignup';
 import { sendConfirmationMail } from '@/features/auth/backend/sendConfirmationMail';
-import { SessionPayload, AuthToken, AuthPayload } from '@/features/auth/types';
-
-const schema = Joi.object({
-  name: Joi.string().min(3).max(30),
-  password: Joi.string().min(3).max(30),
-  email: Joi.string().email({ minDomainSegments: 2 }),
-});
+import { Session, AuthToken, SignupValues } from '@/features/auth/types';
 
 export const signup = async ({
   name,
   email,
   password,
-}: AuthPayload): Promise<SessionPayload | Boom.Boom<unknown>> => {
+  passwordConfirm,
+}: SignupValues): Promise<Session | Boom.Boom<unknown>> => {
   if (!process.env.JWT_SECRET) {
     return Boom.badImplementation(
       `Variable d'environnement JWT_SECRET manquante.`,
     );
   }
 
-  const { error } = schema.validate({ name, email, password });
-  if (error) {
-    return Boom.badRequest(`Format des données invalides.`);
-  }
+  schemaSignup
+    .validate({ name, email, password, passwordConfirm })
+    .catch(() => Boom.badRequest(`Format des données invalides.`));
 
   const user = await prisma.user.findUnique({
     where: {
