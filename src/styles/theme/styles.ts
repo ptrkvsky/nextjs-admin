@@ -6,3 +6,5 @@ export const styles = {
     },
   },
 };
+
+// #e4d3ff purple 100

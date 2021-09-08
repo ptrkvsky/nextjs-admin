@@ -1,1 +1,2 @@
-export * from './TemplateSignUp';
+export * from './TemplateAuth';
+export * from './TemplateConfirmation';
