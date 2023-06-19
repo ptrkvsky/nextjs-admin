@@ -33,7 +33,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@hapi/boom": "9.1.4",
-    "@hookform/resolvers": "2.8.0",
+    "@hookform/resolvers": "2.9.11",
     "@prisma/client": "2.30.2",
     "@reduxjs/toolkit": "1.6.1",
     "@sendgrid/mail": "7.4.6",
